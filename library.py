@@ -4,7 +4,7 @@ import logging
 import os
 import pathlib
 from pathlib import Path
-from urllib.parse import unquote, urljoin, urlsplit
+from urllib.parse import unquote, urljoin, urlsplit, quote
 
 import requests
 from bs4 import BeautifulSoup
@@ -88,7 +88,7 @@ def download_book(soup, book_url, books_path, images_path, args):
     filename = unquote(image_id)
     book_id, _ = os.path.splitext(image_id)
 
-    basic_image_url = urljoin(book_url, relative_image_url)
+    basic_image_url = urljoin(book_url, quote(relative_image_url))
 
     parsed_book = parse_book_page(
         soup, books_path,
