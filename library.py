@@ -4,7 +4,7 @@ import logging
 import os
 import pathlib
 from pathlib import Path
-from urllib.parse import unquote, urljoin, urlsplit, quote
+from urllib.parse import unquote, urljoin, urlsplit
 
 import requests
 from bs4 import BeautifulSoup
@@ -26,8 +26,7 @@ def get_last_page():
     return last_page
 
 
-def parse_book_page(soup, books_path, images_path, filename, book_id,
-                    basic_image_url):
+def parse_book_page(soup, books_path, images_path, filename, book_id):
     comments_selector = '.texts .black'
     comments = soup.select(comments_selector)
 
@@ -44,9 +43,8 @@ def parse_book_page(soup, books_path, images_path, filename, book_id,
     book_path = os.path.join(books_path, f'{book_id}_{title.strip()}.txt')
     parsed_book = {
         'title': title.strip(),
-        'author': author.strip(),
+        'autor': author.strip(),
         'img_scr': img_scr,
-        'basic_image_url': basic_image_url,
         'genres': [tag.text for tag in links_genre],
         'book_path': book_path,
         'comments': [tag.text for tag in comments],
@@ -66,8 +64,9 @@ def download_txt(parsed_book, book_id):
         file.write(download_url_response.text)
 
 
-def download_image(parsed_book, basic_image_url):
+def download_image(book_url, parsed_book, relative_image_url):
     image_url = parsed_book['img_scr']
+    basic_image_url = urljoin(book_url, relative_image_url)
     response = requests.get(basic_image_url)
     response.raise_for_status()
 
@@ -87,19 +86,15 @@ def download_book(soup, book_url, books_path, images_path, args):
     image_id = os.path.split(parse_image_url.path)[-1]
     filename = unquote(image_id)
     book_id, _ = os.path.splitext(image_id)
-
-    basic_image_url = urljoin(book_url, quote(relative_image_url))
-
     parsed_book = parse_book_page(
         soup, books_path,
         images_path, filename,
-        book_id, basic_image_url
+        book_id
     )
-
     if not args.skip_txt:
         download_txt(parsed_book, book_id)
     if not args.skip_imgs:
-        download_image(parsed_book, basic_image_url)
+        download_image(book_url, parsed_book, relative_image_url)
     return parsed_book
 
 
@@ -118,7 +113,8 @@ def get_parser():
     parser.add_argument(
         '--dest_folder',
         help='Путь к каталогу с результатами парсинга: картинкам, книгам, JSON.',
-        default=os.path.abspath(os.curdir)
+        default=''
+        #default=os.path.abspath(os.curdir)
     )
     parser.add_argument(
         '--skip_txt',
