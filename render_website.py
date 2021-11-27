@@ -1,4 +1,5 @@
 import json
+import pathlib
 
 from more_itertools import chunked
 
@@ -8,6 +9,8 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 
 def on_reload():
+    pages_folder = 'pages'
+
     env = Environment(
         loader=FileSystemLoader('.'),
         autoescape=select_autoescape(['html', 'xml'])
@@ -17,13 +20,15 @@ def on_reload():
     with open('parsed_book.json', 'r') as my_file:
         parsed_books_json = my_file.read()
 
-    parsed_books = json.loads(parsed_books_json)
-    rendered_page = template.render(
-        parsed_books=list(chunked(parsed_books, 2))
-    )
+    parsed_bookss = json.loads(parsed_books_json)
 
-    with open('index.html', 'w', encoding="utf8") as file:
-        file.write(rendered_page)
+    for number, parsed_books in enumerate(list(chunked(parsed_bookss, 10)), 1):
+        rendered_page = template.render(
+            parsed_books=list(chunked(parsed_books, 2))
+        )
+        pathlib.Path(pages_folder).mkdir(parents=True, exist_ok=True)
+        with open(f'pages/index{number}.html', 'w', encoding="utf8") as file:
+            file.write(rendered_page)
 
 
 on_reload()

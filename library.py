@@ -43,7 +43,7 @@ def parse_book_page(soup, books_path, images_path, filename, book_id):
     book_path = os.path.join(books_path, f'{book_id}_{title.strip()}.txt')
     parsed_book = {
         'title': title.strip(),
-        'autor': author.strip(),
+        'author': author.strip(),
         'img_scr': img_scr,
         'genres': [tag.text for tag in links_genre],
         'book_path': book_path,
