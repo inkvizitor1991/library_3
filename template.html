@@ -8,27 +8,24 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <title>Hello, world!</title>
+    <title>Научная фантастика</title>
   </head>
   <body>
+
     <div class="container">
       <nav aria-label="Page navigation">
         <ul class="pagination">
           <li class="page-item {% if current_page == 1 %}disabled{% endif %}">
             <a class="page-link" href=../pages/index{{ current_page-1 }}.html tabindex="-1" aria-disabled="true">Назад</a>
           </li>
-
           {% for page_number in pages_number %}
             <li class="page-item {% if page_number == current_page %}active{% endif %}"><a class="page-link" href=../pages/index{{ page_number }}.html>{{ page_number }}</a></li>
           {% endfor %}
-
-
-            <li class="page-item {% if current_page == pages_number[-1] %}disabled{% endif %}">
-              <a class="page-link" href=../pages/index{{ current_page+1 }}.html tabindex="-1" aria-disabled="true">Вперёд</a>
-            </li>
+          <li class="page-item {% if current_page == pages_number[-1] %}disabled{% endif %}">
+            <a class="page-link" href=../pages/index{{ current_page+1 }}.html tabindex="-1" aria-disabled="true">Вперёд</a>
+          </li>
         </ul>
       </nav>
-
 
       {% for books in parsed_books %}
       <div class="container">
@@ -44,7 +41,11 @@
                   <div class="card-body">
                     <h5 class="card-title">{{book.title}}</h5>
                     <p class="card-text">{{book.author}}</p>
-                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                    <p>
+                      {% for genre in book.genres %}
+                        <span class="badge badge-secondary">{{ genre }}</span>
+                      {% endfor %}
+                    </p>
                     <a href=../{{ book.book_path|urlencode }} target="_blank" rel="noopener noreferrer">Читать</a>
                   </div>
                 </div>
