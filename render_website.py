@@ -23,7 +23,7 @@ def on_reload():
 
     parsed_books = json.loads(parsed_books_json)
 
-    one_page_books = 3
+    one_page_books = 10
     pages_number = []
     pages = math.ceil(len(parsed_books) / one_page_books)
     for page in range(1, pages + 1):

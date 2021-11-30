@@ -4,9 +4,9 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+    <link rel="icon" href=../static/favicon.png>
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href=../static/bootstrap.min.css>
 
     <title>Научная фантастика</title>
   </head>
@@ -35,7 +35,7 @@
             <div class="card mb-3" style="max-width: 540px;">
               <div class="row no-gutters">
                 <div class="col-md-4">
-                  <img src=../{{ book.img_scr|urlencode }} class="card-img" alt={{ book.title }}>
+                  <img src=../media/{{ book.img_scr|urlencode }} class="card-img" alt={{ book.title }}>
                 </div>
                 <div class="col-md-8">
                   <div class="card-body">
@@ -46,7 +46,7 @@
                         <span class="badge badge-secondary">{{ genre }}</span>
                       {% endfor %}
                     </p>
-                    <a href=../{{ book.book_path|urlencode }} target="_blank" rel="noopener noreferrer">Читать</a>
+                    <a href=../media/{{ book.book_path|urlencode }} target="_blank" rel="noopener noreferrer">Читать</a>
                   </div>
                 </div>
               </div>
