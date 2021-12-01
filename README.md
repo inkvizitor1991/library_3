@@ -1,7 +1,7 @@
 # Онлайн-библиотека
-###Жанр книг: научная фантастика.
+### Жанр книг: научная фантастика.
 
-![alt text](ezgifcom-gif-maker_2.gif)
+![alt text](gif_for_readme.gif)
 
 
 Библиотека доступна по ссылке: [онлайн-библиотека](https://inkvizitor1991.github.io/library_3/). 
